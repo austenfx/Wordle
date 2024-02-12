@@ -58,6 +58,7 @@ h1 {
     height: 60px;
     width: 60px;
     border: solid 2px rgb(58, 58, 60);
+    text-transform: uppercase;
 }
 
 .pending {
