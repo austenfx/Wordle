@@ -25,14 +25,6 @@ body {
     
 }
 
-.letter {
-    background-color: transparent;
-    margin: 3px;
-    height: 60px;
-    width: 60px;
-    border: solid 2px rgb(58, 58, 60);
-}
-
 .navbar{
     display: flex;
     flex-direction: row;
@@ -49,9 +41,43 @@ body {
 h1 {
     flex-grow: 1;
     margin: 10px;
-    font-size: 30px;
+    font-size: 33px;
+    font-family:Arial, Helvetica, sans-serif
 }
 
 .navright {
     width: 350px;
+}
+
+.letter {
+    line-height: 60px;
+    font-size: 32px;
+    font-weight: 750;
+    background-color: transparent;
+    margin: 3px;
+    height: 60px;
+    width: 60px;
+    border: solid 2px rgb(58, 58, 60);
+}
+
+.pending {
+    border: solid 2px rgb(86,87,88);
+}
+
+.missing {
+    background-color: rgb(58, 58, 60);
+}
+
+.yellow {
+    background-color: rgb(181,159,59);
+    border: 0px;
+    height: 64px;
+    width: 64px;
+}
+
+.found {
+    background-color: rgb(83,141,78);
+    border: 0px;
+    height: 64px;
+    width: 64px;
 }
