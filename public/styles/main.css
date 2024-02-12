@@ -1,0 +1,57 @@
+body {
+    text-align: center;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    font-family: sans-serif;
+    background-color: rgb(18, 18, 19);
+    color: white;
+}
+
+.game {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.word {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    
+}
+
+.letter {
+    background-color: transparent;
+    margin: 3px;
+    height: 60px;
+    width: 60px;
+    border: solid 2px rgb(58, 58, 60);
+}
+
+.navbar{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    width: 100%;
+    border-bottom: 1px solid rgb(58, 58, 60);
+    margin-bottom: 20px;
+}
+
+.navleft {
+    width: 350px;
+}
+
+h1 {
+    flex-grow: 1;
+    margin: 10px;
+    font-size: 30px;
+}
+
+.navright {
+    width: 350px;
+}
