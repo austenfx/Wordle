@@ -25,6 +25,15 @@ function LastLetter(position){
     return position;
 }
 
+function NextWord(position){
+    position.word++;
+    position.letter = 0;
+    if (position.word > maxWords) {
+        GuessesComplete();
+    }
+    return position;
+}
+
 function ChooseLetterElement(position){
     return $(`.word${position.word} .letter${position.letter}`);
 }
@@ -36,6 +45,9 @@ $(document).on("keydown", (event) => {
     }
     if (key == "Backspace") {
         BackSpace();
+    }
+    else if (key == "Enter") {
+        Enter();
     }
 });
 
@@ -57,4 +69,30 @@ function BackSpace(){
     }
     RemoveLetter(position);
     position = LastLetter(position);
+}
+
+function Enter() {
+    let guess = GetWord(position.word);
+    if (guess.length == maxLetters){
+        EnterWord(guess);
+        position = NextWord(position);
+    }
+
+}
+
+function GetWord(wordNum){
+    let word = "";
+
+    for (let i = 1; i <= maxLetters; i++) {
+        word += $(".word" + position.word + " .letter" + i).text();
+    }
+    return word;
+}
+
+function GuessesComplete() {
+    
+}
+
+function EnterWord(guess) {
+    console.log(guess);
 }
