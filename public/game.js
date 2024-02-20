@@ -39,17 +39,26 @@ function ChooseLetterElement(position){
 }
 
 $(document).on("keydown", (event) => {
-    let key = event.key;
+    KeyValidation(event.key);
+});
+
+$(".key").on("click", function() {
+    console.log($(this).text());
+    KeyValidation($(this).text());
+});
+
+
+function KeyValidation(key){
     if (key.length === 1 && key.match(/[a-z]/i) && position.letter <= maxLetters) {
         EnterLetter(key.toUpperCase());
     }
-    if (key == "Backspace") {
+    if (key == "Backspace" || key == "BACK") {
         BackSpace();
     }
-    else if (key == "Enter") {
+    else if (key == "enter" || key == "ENTER") {
         Enter();
     }
-});
+}
 
 function EditLetter(position, key){
     let letterElement = ChooseLetterElement(position);
@@ -100,7 +109,7 @@ function LoseGame() {
 }
 
 function WinGame() {
-    alert("You win in " + position.word + " moves!")
+    console.log("You win in " + position.word + " moves!")
 }
 
 function EnterWord(guess) {
@@ -128,7 +137,6 @@ function GetLetterStates(guess, targetWord) {
                 for (let x = 0; x < maxLetters; x++) {
                     if (guess[i] == guess[x] && guess[x] == targetWord[x]) {
                         count++;
-                        console.log("1" + count);
                     }
                 }
                 for (let x = 0; x < i; x++) {

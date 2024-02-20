@@ -71,14 +71,37 @@ h1 {
 
 .yellow {
     background-color: rgb(181,159,59);
-    border: 0px;
-    height: 64px;
-    width: 64px;
+    border-color: rgb(181,159,59);
 }
 
 .found {
     background-color: rgb(83,141,78);
-    border: 0px;
-    height: 64px;
-    width: 64px;
+    border-color: rgb(83,141,78);
+}
+
+.keyboard {
+    margin: 20px;
+}
+
+.keyboard > div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.key {
+    height: 58px;
+    width: 43px;
+    line-height: 58px;
+    font-size: 20px;
+    font-weight: 700;
+    margin: 3px;
+    background-color: rgb(129,131,132);
+    border-radius: 3px;
+    
+}
+
+.specialKey{
+    width: 68px;
+    font-size: 15px;
 }
