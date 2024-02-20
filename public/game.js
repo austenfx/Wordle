@@ -1,5 +1,6 @@
-const maxWords = 6;
-const maxLetters = 5;
+let maxWords = 6;
+let maxLetters = 5;
+let targetWord = "fluff".toUpperCase();
 
 
 let position = {
@@ -8,7 +9,6 @@ let position = {
 }
 
 function EnterLetter(key){
-    //console.log(key + " " + position.word + " " + position.letter);
     position = NextLetter(position);
     EditLetter(position, key);
 }
@@ -41,7 +41,7 @@ function ChooseLetterElement(position){
 $(document).on("keydown", (event) => {
     let key = event.key;
     if (key.length === 1 && key.match(/[a-z]/i) && position.letter <= maxLetters) {
-        EnterLetter(key);
+        EnterLetter(key.toUpperCase());
     }
     if (key == "Backspace") {
         BackSpace();
@@ -72,9 +72,10 @@ function BackSpace(){
 }
 
 function Enter() {
-    let guess = GetWord(position.word);
+    let guess = GetWord(position.word).toUpperCase();
     if (guess.length == maxLetters){
         EnterWord(guess);
+        SetLetterStates(position.word, GetLetterStates(guess, targetWord));
         position = NextWord(position);
     }
 
@@ -90,9 +91,79 @@ function GetWord(wordNum){
 }
 
 function GuessesComplete() {
-    
+    alert("You lost");
 }
 
 function EnterWord(guess) {
     console.log(guess);
 }
+
+function GetLetterStates(guess, targetWord) {
+    let states = [];
+
+    for (let i = 0; i < maxLetters; i++) {
+        states.push(0);
+    }
+
+    for (let i = 0; i < maxLetters; i++) {
+        if (guess[i] == targetWord[i]) {
+            states[i] = 2;
+        }
+        else {
+            let appsInTarget = GetLetterAppsInWord(guess[i], targetWord);
+            if (appsInTarget == 0) {
+                states[i] = 0;
+            }
+            else {
+                let count = 0;
+                for (let x = 0; x < maxLetters; x++) {
+                    if (guess[i] == guess[x] && guess[x] == targetWord[x]) {
+                        count++;
+                        console.log("1" + count);
+                    }
+                }
+                for (let x = 0; x < i; x++) {
+                    if (guess[i] == guess[x] && states[x] == 1) {
+                        count++;
+                        
+                    }
+                }
+                if (count < appsInTarget) {
+                    states[i] = 1;
+                }
+            }
+        }
+    }
+
+    return states;
+}
+
+function SetLetterStates(wordNum, states) {
+    
+    for (let i = 0; i < maxLetters; i++) {
+        let letterElement = $(".word" + wordNum + " .letter" + (i + 1));
+        letterElement.removeClass("pending");
+        switch (states[i]) {
+            case 0:
+                letterElement.addClass("missing");
+                break;
+            case 1:
+                letterElement.addClass("yellow");
+                break;
+            case 2:
+                letterElement.addClass("found");
+                break;
+        
+            default:
+                break;
+        }
+    }
+}
+
+function GetLetterAppsInWord(letter, word){
+    let count = word.split(letter).length - 1;
+    //console.log(letter + " appears " + count + " times in " + word);
+    return count;
+}
+
+
