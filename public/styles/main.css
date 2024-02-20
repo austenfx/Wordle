@@ -45,6 +45,11 @@ h1 {
     font-family:Arial, Helvetica, sans-serif
 }
 
+h1 > a {
+    text-decoration: none;
+    color: white;
+}
+
 .navright {
     width: 350px;
 }

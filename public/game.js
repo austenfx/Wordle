@@ -1,6 +1,7 @@
 let maxWords = 6;
 let maxLetters = 5;
 let targetWord = "";
+let gameOver = false;
 const listofValidAnswers = CreateValidAnswerList();
 
 let position = {
@@ -29,7 +30,7 @@ function NextWord(position){
     position.word++;
     position.letter = 0;
     if (position.word > maxWords) {
-        GuessesComplete();
+        LoseGame();
     }
     return position;
 }
@@ -49,13 +50,14 @@ $(".key").on("click", function() {
 
 
 function KeyValidation(key){
-    if (key.length === 1 && key.match(/[a-z]/i) && position.letter <= maxLetters) {
+    if (gameOver) {
+    } else if (key.length === 1 && key.match(/[a-z]/i) && position.letter <= maxLetters) {
         EnterLetter(key.toUpperCase());
     }
-    if (key == "Backspace" || key == "BACK") {
+    else if (key == "Backspace" || key == "BACK") {
         BackSpace();
     }
-    else if (key == "enter" || key == "ENTER") {
+    else if (key == "Enter" || key == "ENTER") {
         Enter();
     }
 }
@@ -105,10 +107,11 @@ function GetWord(wordNum){
 }
 
 function LoseGame() {
-    alert("You lost");
+    gameOver = true;
 }
 
 function WinGame() {
+    gameOver = true;
     console.log("You win in " + position.word + " moves!")
 }
 
