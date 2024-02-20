@@ -44,7 +44,6 @@ $(document).on("keydown", (event) => {
 });
 
 $(".key").on("click", function() {
-    console.log($(this).text());
     KeyValidation($(this).text());
 });
 
