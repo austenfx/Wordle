@@ -44,7 +44,7 @@ $(document).on("keydown", (event) => {
 });
 
 $(".key").on("click", function() {
-    KeyValidation($(this).text());
+    KeyValidation($(this).attr("data-key"));
 });
 
 
@@ -53,10 +53,10 @@ function KeyValidation(key){
     } else if (key.length === 1 && key.match(/[a-z]/i) && position.letter <= maxLetters) {
         EnterLetter(key.toUpperCase());
     }
-    else if (key == "Backspace" || key == "BACK") {
+    else if (key == "Backspace") {
         BackSpace();
     }
-    else if (key == "Enter" || key == "ENTER") {
+    else if (key == "Enter") {
         Enter();
     }
 }
@@ -84,7 +84,10 @@ function BackSpace(){
 function Enter() {
     let guess = GetWord(position.word).toUpperCase();
     if (guess.length == maxLetters && listofValidAnswers.includes(guess.toLowerCase())){
-        SetLetterStates(position.word, GetLetterStates(guess, targetWord));
+        let letterStates = GetLetterStates(guess, targetWord);
+        SetLetterStates(position.word, letterStates);
+        SetKeyboardStates(letterStates, guess);
+        SetKeyboardStates(letterStates, guess)
         if (guess == targetWord) {
             WinGame();
         }
@@ -112,10 +115,6 @@ function LoseGame() {
 function WinGame() {
     gameOver = true;
     console.log("You win in " + position.word + " moves!")
-}
-
-function EnterWord(guess) {
-    console.log(guess);
 }
 
 function GetLetterStates(guess, targetWord) {
@@ -162,20 +161,49 @@ function SetLetterStates(wordNum, states) {
     for (let i = 0; i < maxLetters; i++) {
         let letterElement = $(".word" + wordNum + " .letter" + (i + 1));
         letterElement.removeClass("pending");
+        let classToAdd = "";
         switch (states[i]) {
             case 0:
-                letterElement.addClass("missing");
+                classToAdd = "missing";
                 break;
             case 1:
-                letterElement.addClass("yellow");
+                classToAdd = "yellow";
                 break;
             case 2:
-                letterElement.addClass("found");
+                classToAdd = "found";
                 break;
         
             default:
                 break;
         }
+        letterElement.addClass(classToAdd);
+    }
+}
+
+function GetKeyboardStates() {
+    
+}
+
+function SetKeyboardStates(letterStates, word){
+    for (let i = 0; i < letterStates.length; i++) {
+        let keyElement = $(".key[data-key='" + word[i].toLowerCase() + "']");
+
+        let classToAdd = "";
+        switch (letterStates[i]) {
+            case 0:
+                classToAdd = "missing";
+                break;
+            case 1:
+                classToAdd = "yellow";
+                break;
+            case 2:
+                classToAdd = "found";
+                break;
+        
+            default:
+                break;
+        }
+        keyElement.addClass(classToAdd);
     }
 }
 

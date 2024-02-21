@@ -72,20 +72,6 @@ h1 > a {
     border: solid 2px rgb(86,87,88);
 }
 
-.missing {
-    background-color: rgb(58, 58, 60);
-}
-
-.yellow {
-    background-color: rgb(181,159,59);
-    border-color: rgb(181,159,59);
-}
-
-.found {
-    background-color: rgb(83,141,78);
-    border-color: rgb(83,141,78);
-}
-
 .keyboard {
     max-width: 491px;
     margin: 20px auto;
@@ -114,4 +100,19 @@ h1 > a {
 .specialKey{
     width: 68px;
     font-size: 15px;
+}
+
+
+.missing {
+    background-color: rgb(58, 58, 60);
+}
+
+.yellow {
+    background-color: rgb(181,159,59);
+    border-color: rgb(181,159,59);
+}
+
+.found {
+    background-color: rgb(83,141,78);
+    border-color: rgb(83,141,78);
 }
