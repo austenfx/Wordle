@@ -2,12 +2,25 @@ let maxWords = 6;
 let maxLetters = 5;
 let targetWord = "";
 let gameOver = false;
+let wordStates = [];
 const listofValidAnswers = CreateValidAnswerList();
+
+numToState = {
+    0: "missing",
+    1: "yellow",
+    2: "found"
+}
 
 let position = {
     word: 1,
     letter: 0
 }
+
+$(".gameOverClose").on("click", () => {
+    $(".gameOverWindowHolder").addClass("hidden");
+});
+
+$(".gameOverCopy")
 
 function EnterLetter(key){
     position = NextLetter(position);
@@ -81,12 +94,15 @@ function BackSpace(){
     position = LastLetter(position);
 }
 
-async function Enter() {
+function Enter() {
     let guess = GetWord(position.word).toUpperCase();
     if (guess.length == maxLetters && listofValidAnswers.includes(guess.toLowerCase())){
         let letterStates = GetLetterStates(guess, targetWord);
         SetLetterStates(position.word, letterStates);
-        SetKeyboardStates(letterStates, guess);
+        setTimeout(() => {
+            SetKeyboardStates(letterStates, guess);
+        }, 1800);
+        
 
         if (guess == targetWord) {
             WinGame();
@@ -110,12 +126,53 @@ function GetWord(wordNum){
 
 function LoseGame() {
     gameOver = true;
+    console.log("Not this time")
+    
+    $(".gameOverMessage").text("Not this time!");
+    let summary = CreateSummary();
+    $(".statSummary").html(summary);
+    $(".score").text("X/6");
+    setTimeout(() => {
+        $(".gameOverWindowHolder").removeClass("hidden");
+    }, 3000);
 }
 
 function WinGame() {
     gameOver = true;
     console.log("You win in " + position.word + " moves!")
+    let summary = CreateSummary();
+    $(".gameOverMessage").text("Well done Legend!");
+    $(".statSummary").html(summary);
+    $(".score").text(position.word + "/6");
+    setTimeout(() => {
+        $(".gameOverWindowHolder").removeClass("hidden");
+    }, 3000);
+    
 }
+
+function CreateSummary() {
+    let states = wordStates;
+
+    numToEmoji = {
+        0: "⬛",
+        1: "🟨",
+        2: "🟩"
+    }
+
+    let summary = "";
+
+    for (let word = 0; word < states.length; word++) {
+        for (let letter = 0; letter < maxLetters; letter++) {
+            summary += numToEmoji[states[word][letter]];
+        }
+        summary += "<br/>";
+    }
+    console.log(summary);
+    //navigator.clipboard.writeText(summary);
+    return summary;
+}
+
+
 
 function GetLetterStates(guess, targetWord) {
     let states = [];
@@ -152,7 +209,7 @@ function GetLetterStates(guess, targetWord) {
             }
         }
     }
-
+    wordStates.push(states);
     return states;
 }
 
@@ -161,26 +218,11 @@ function SetLetterStates(wordNum, states) {
     for (let i = 0; i < maxLetters; i++) {
         let letterElement = $(".word" + wordNum + " .letter" + (i + 1));
         letterElement.removeClass("pending");
-        let classToAdd = "";
-        switch (states[i]) {
-            case 0:
-                classToAdd = "missing";
-                break;
-            case 1:
-                classToAdd = "yellow";
-                break;
-            case 2:
-                classToAdd = "found";
-                break;
-        
-            default:
-                break;
-        }
 
         setTimeout(() => {
             letterElement.fadeOut().promise().done(
                 function() {
-                    letterElement.addClass(classToAdd);
+                    letterElement.addClass(numToState[states[i]]);
                     letterElement.fadeIn();
                     console.log("yerp");
                 }
@@ -190,30 +232,11 @@ function SetLetterStates(wordNum, states) {
     }
 }
 
-function GetKeyboardStates() {
-    
-}
 
 function SetKeyboardStates(letterStates, word){
     for (let i = 0; i < letterStates.length; i++) {
         let keyElement = $(".key[data-key='" + word[i].toLowerCase() + "']");
-
-        let classToAdd = "";
-        switch (letterStates[i]) {
-            case 0:
-                classToAdd = "missing";
-                break;
-            case 1:
-                classToAdd = "yellow";
-                break;
-            case 2:
-                classToAdd = "found";
-                break;
-        
-            default:
-                break;
-        }
-        keyElement.addClass(classToAdd);
+        keyElement.addClass(numToState[letterStates[i]]);
     }
 }
 
