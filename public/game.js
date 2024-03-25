@@ -81,13 +81,13 @@ function BackSpace(){
     position = LastLetter(position);
 }
 
-function Enter() {
+async function Enter() {
     let guess = GetWord(position.word).toUpperCase();
     if (guess.length == maxLetters && listofValidAnswers.includes(guess.toLowerCase())){
         let letterStates = GetLetterStates(guess, targetWord);
         SetLetterStates(position.word, letterStates);
         SetKeyboardStates(letterStates, guess);
-        SetKeyboardStates(letterStates, guess)
+
         if (guess == targetWord) {
             WinGame();
         }
@@ -176,7 +176,17 @@ function SetLetterStates(wordNum, states) {
             default:
                 break;
         }
-        letterElement.addClass(classToAdd);
+
+        setTimeout(() => {
+            letterElement.fadeOut().promise().done(
+                function() {
+                    letterElement.addClass(classToAdd);
+                    letterElement.fadeIn();
+                    console.log("yerp");
+                }
+            );
+        }, i * 300);
+        
     }
 }
 
